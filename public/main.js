@@ -2,18 +2,18 @@
 
 (function() {
 
-  var socket = io();
-  var canvas = document.getElementsByClassName('whiteboard')[0];
-  var colors = document.getElementsByClassName('color');
-  var sizes = document.getElementsByClassName('size');
-  var clearAll = document.getElementById('clear-all');
-  var context = canvas.getContext('2d');
+  const socket = io();
+  const canvas = document.getElementsByClassName('whiteboard')[0];
+  const colors = document.getElementsByClassName('color');
+  const sizes = document.getElementsByClassName('size');
+  const clearAll = document.getElementById('clear-all');
+  const context = canvas.getContext('2d');
 
-  var current = {
+  let current = {
     color: 'black',
     size: 2
   };
-  var drawing = false;
+  let drawing = false;
   
  
  
@@ -29,11 +29,11 @@
   canvas.addEventListener('touchcancel', onMouseUp, false);
   canvas.addEventListener('touchmove', throttle(onMouseMove, 10), false);
 
-  for (var i = 0; i < colors.length; i++){
+  for (let i = 0; i < colors.length; i++){
     colors[i].addEventListener('click', onColorUpdate, false);
   }
 
-  for (var i = 0; i < sizes.length; i++){
+  for (let i = 0; i < sizes.length; i++){
     sizes[i].addEventListener('click', onLineUpdate, false);
   }
 
@@ -56,8 +56,8 @@
     context.closePath();
 
     if (!emit) { return; }
-    var w = canvas.width;
-    var h = canvas.height;
+    let w = canvas.width;
+    let h = canvas.height;
 
     socket.emit('drawing', {
       x0: x0 / w,
@@ -125,9 +125,9 @@
 
   // limit the number of events per second
   function throttle(callback, delay) {
-    var previousCall = new Date().getTime();
+    let previousCall = new Date().getTime();
     return function() {
-      var time = new Date().getTime();
+      let time = new Date().getTime();
 
       if ((time - previousCall) >= delay) {
         previousCall = time;
@@ -137,8 +137,8 @@
   }
 
   function onDrawingEvent(data){
-    var w = canvas.width;
-    var h = canvas.height;
+    let w = canvas.width;
+    let h = canvas.height;
     drawLine(data.x0 * w, data.y0 * h, data.x1 * w, data.y1 * h, data.color,data.size);
   }
 
